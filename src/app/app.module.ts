@@ -20,6 +20,11 @@ import { OrderService } from './order/service/order.service';
 import { OrderListComponent } from './order/order-list/order-list.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
+import { MatMomentDateModule, MomentDateAdapter } from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material";
+import { CommentComponent } from './comment/comment.component';
+
+
 @NgModule({
   declarations: [
       AppComponent,
@@ -28,7 +33,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
       OrderEingabeComponent,
       NavWrapperComponent,
       VerwaltungComponent,
-      OrderListComponent
+      OrderListComponent,
+      CommentComponent
 
   ],
   imports: [
@@ -37,9 +43,14 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
         OwnMaterialModule,
         AuthentificationModule,
         RoutingModule,
-        FormsModule, ReactiveFormsModule
+        FormsModule, ReactiveFormsModule,
+      MatMomentDateModule
   ],
-  providers: [OrderService],
+  providers: [
+      OrderService,
+      {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+      {provide: MAT_DATE_LOCALE, useValue: 'de-DE'}
+      ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
