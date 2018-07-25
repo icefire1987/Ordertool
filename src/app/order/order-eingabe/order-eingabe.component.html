@@ -92,7 +92,7 @@
                             <p>{{GenderService.getNameById(cg_elem.value.gender)}}</p>
                         </div>
                         <div class="col field_inline">
-                            <genderdropdown [model]="gender_defaults" [myPlaceholder]="'Geschlecht wählen'" [selectedValue]="0" [c]="cg_elem.controls.gender"></genderdropdown>
+                            <processdropdown [model]="process_defaults" [myPlaceholder]="'Prozess wählen'" [c]="cg_elem.controls.process"></processdropdown>
                         </div>
                         <!--
                         cg_elem.controls.gender.value
@@ -105,7 +105,21 @@
         </div>
     </mat-tab>
     <mat-tab label="Foto">
-      No content
+        <div *ngFor="let elem of cg_set.controls; let i = index">
+            <div class="grid_cols" *ngIf="checkForDepartment('Foto', elem.controls.process.value)">
+                <div class="col field_inline">
+
+                </div>
+                <div class="col field_inline">
+
+                </div>
+                <!--
+                cg_elem.controls.gender.value
+                cg_elem.value.gender
+                -->
+
+            </div>
+        </div>
     </mat-tab>
     <mat-tab label="Postproduction">
       No content
@@ -127,5 +141,5 @@
 </div>
 
 <p class="" style="display:block">Form value: {{ orderInputForm.value | json }}</p>
-
+{{process_defaults | json}}
 

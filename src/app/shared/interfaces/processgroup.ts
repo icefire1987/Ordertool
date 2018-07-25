@@ -1,10 +1,12 @@
 
 export interface Processgroup {
-    id: number;
-    elements:Array<{process:Process,sort:number}>;
+    processgroup_id: number;
+    elements: Array<{process: Process, sort: number}>;
 }
 
 export interface Process {
-    id: number;
+    process_id: number;
     name: string;
+    type: string;
+    department: string;
 }

@@ -27,6 +27,7 @@ import { CgConcatPipe } from './shared/pipe/cg-concat.pipe';
 import { CgdropdownComponent } from './cgdropdown/cgdropdown.component';
 import { GenderdropdownComponent } from './genderdropdown/genderdropdown.component';
 import { ProcessdropdownComponent } from './processdropdown/processdropdown.component';
+import { ProcessConcatPipe } from './shared/pipe/process-concat.pipe';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { ProcessdropdownComponent } from './processdropdown/processdropdown.comp
       CgConcatPipe,
       CgdropdownComponent,
       GenderdropdownComponent,
-      ProcessdropdownComponent
+      ProcessdropdownComponent,
+      ProcessConcatPipe
 
   ],
   imports: [

@@ -1,5 +1,6 @@
 import {Component, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from "@angular/forms";
+import {MatSelect} from "@angular/material";
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -35,13 +36,13 @@ export class CgdropdownComponent implements ControlValueAccessor, OnInit {
 
   @Input() model: any;
   @Input() selectedValue: any;
-  @Input() disabled:boolean = false;
-  @Input() myPlaceholder: string = "Warengruppe hinzufügen";
-  @Input() mySplitLength: number = 0 ;
-  @Input() c:FormControl = new FormControl();
+  @Input() disabled = false;
+  @Input() myPlaceholder = "Warengruppe hinzufügen";
+  @Input() mySplitLength = 0 ;
+  @Input() c: FormControl = new FormControl();
 
 
-  @ViewChild('myselect') select: ElementRef;
+  @ViewChild('myselect') select: MatSelect;
 
   @Output()
   change = new EventEmitter();

@@ -10,6 +10,8 @@ import {startWith, map} from "rxjs/operators";
 import {CommodityGroup} from "../../shared/interfaces/commoditygroup";
 import {CgService} from "../../shared/service/cg.service";
 import {GenderService} from "../../shared/service/gender.service";
+import {Processgroup} from "../../shared/interfaces/processgroup";
+import {ProcessService} from "../../shared/service/process.service";
 
 @Component({
   selector: 'app-order-eingabe',
@@ -23,6 +25,7 @@ export class OrderEingabeComponent implements OnInit {
     public currentOrder: Order;
     cg_defaults: CommodityGroup[];
     gender_defaults: any;
+    process_defaults: Processgroup[];
     public kunden: Customer[] = Kunden;
     public ap_extern: Person[] = Ansprechpartner;
     public retouraddress_all =
@@ -44,7 +47,7 @@ export class OrderEingabeComponent implements OnInit {
     ];
     public retouraddresses: Address[];
 
-    // CONSTRUCTOR
+// CONSTRUCTOR
     constructor(
       private fb: FormBuilder,
       private orderService: OrderService,
@@ -52,6 +55,7 @@ export class OrderEingabeComponent implements OnInit {
       private route: ActivatedRoute,
       private CgService: CgService,
       private GenderService: GenderService,
+      private ProcessService: ProcessService,
     ) {
     this.createForm();
     this.route.params
@@ -67,7 +71,7 @@ export class OrderEingabeComponent implements OnInit {
 
         });
     }
-    // END CONSTRUCTOR
+// END CONSTRUCTOR
 
     createForm() {
         this.orderInputForm = this.fb.group({
@@ -148,6 +152,9 @@ export class OrderEingabeComponent implements OnInit {
     private displayPersonName(person?: Person){
         return person ? person.name : null;
     }
+    private checkForDepartment(department_name, processgroup_id){
+        return this.ProcessService.checkForDepartment(department_name,processgroup_id);
+    }
     get cg_set() {
         return this.orderInputForm.get('cg_set') as FormArray;
     }
@@ -169,6 +176,7 @@ export class OrderEingabeComponent implements OnInit {
 
         this.CgService.getCG().subscribe(val => this.cg_defaults = val);
         this.GenderService.getGender().subscribe(val => this.gender_defaults = val);
+        this.ProcessService.getProcess().subscribe( val => this.process_defaults = val);
     }
 
     // Object as Selectvalue
