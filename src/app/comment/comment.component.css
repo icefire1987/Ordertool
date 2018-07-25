@@ -1,0 +1,11 @@
+.full-width{
+    width: 100%;
+}
+
+.commentform > * {
+    margin: 5px 0;
+}
+
+.commentform .mat-radio-button {
+    margin: 0 5px;
+}

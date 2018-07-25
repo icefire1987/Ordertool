@@ -23,6 +23,10 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { MatMomentDateModule, MomentDateAdapter } from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material";
 import { CommentComponent } from './comment/comment.component';
+import { CgConcatPipe } from './shared/pipe/cg-concat.pipe';
+import { CgdropdownComponent } from './cgdropdown/cgdropdown.component';
+import { GenderdropdownComponent } from './genderdropdown/genderdropdown.component';
+import { ProcessdropdownComponent } from './processdropdown/processdropdown.component';
 
 
 @NgModule({
@@ -34,7 +38,11 @@ import { CommentComponent } from './comment/comment.component';
       NavWrapperComponent,
       VerwaltungComponent,
       OrderListComponent,
-      CommentComponent
+      CommentComponent,
+      CgConcatPipe,
+      CgdropdownComponent,
+      GenderdropdownComponent,
+      ProcessdropdownComponent
 
   ],
   imports: [

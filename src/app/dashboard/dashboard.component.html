@@ -1,0 +1,28 @@
+
+<mat-progress-bar mode="indeterminate" *ngIf="this.isLoading"></mat-progress-bar>
+
+<mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="number">
+        <mat-header-cell *matHeaderCellDef> Auftragsnummer </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.number}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="customer">
+        <mat-header-cell *matHeaderCellDef> Nutzer </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.customer.name}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef> Aktion </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+            <button mat-icon-button color="warn" (click)="deleteOrder($event,row)">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+    <mat-row *matRowDef="let rows; columns: columnsToDisplay" (click)="editOrder(rows)"></mat-row>
+</mat-table>
+

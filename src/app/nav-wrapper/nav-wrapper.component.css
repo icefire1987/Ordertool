@@ -1,0 +1,29 @@
+.toolbar-spacer{
+    flex: 1 1 auto;
+}
+.mat-sidenav-container{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+
+}
+.mat-sidenav-contents {
+    padding: 5px;
+    height: calc(100vh - 65px);
+    box-sizing: border-box;
+}
+.mat-nav-list a {
+    color: #999;
+    font-size: 1.6em;
+    border-right: 2px solid white;
+}
+.mat-nav-list a.active {
+    text-shadow: 0 1px 1px #777, 0 -1px 1px #fff;
+    border-right: 2px solid grey;
+}
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+}

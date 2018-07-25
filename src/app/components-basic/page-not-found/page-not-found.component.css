@@ -1,0 +1,12 @@
+
+mat-card{
+    width: 50vw;
+    background: hsla(0,0%,100%, .5);
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%, -50%);
+    text-align:center;
+
+
+}

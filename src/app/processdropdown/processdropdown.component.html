@@ -1,0 +1,7 @@
+<mat-form-field>
+  <mat-select #myselect [placeholder]="myPlaceholder" (selectionChange)="valuechange($event.value)"  [value]="selectedValue" [disabled]="disabled">
+    <mat-option *ngFor="let elem of model" [value]="elem.id">
+      {{ elem.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

@@ -1,0 +1,21 @@
+<div class="wrapper">
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Zuumeo Studio Avisierung</span>
+    <span class="toolbar-spacer"></span>
+    <mat-icon>verified_user</mat-icon>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-sidenav-container>
+  <mat-sidenav mode="side" opened #sidenav>
+    <mat-nav-list>
+      <a mat-list-item routerLink="dashboard" routerLinkActive="active">Dashboard</a>
+      <a mat-list-item routerLink="order" routerLinkActive="active">Eingabe</a>
+      <a mat-list-item routerLink="admin" routerLinkActive="active">Verwaltung</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+</div>
