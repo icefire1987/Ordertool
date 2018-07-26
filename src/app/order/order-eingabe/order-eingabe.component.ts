@@ -21,13 +21,14 @@ import {ProcessService} from "../../shared/service/process.service";
 export class OrderEingabeComponent implements OnInit {
     private isLoading;
     filteredOptions_ap_extern: Observable<Person[]>;
-    public orderInputForm: FormGroup;
-    public currentOrder: Order;
+    orderInputForm: FormGroup;
+
     cg_defaults: CommodityGroup[];
     gender_defaults: any;
     process_defaults: Processgroup[];
-    public kunden: Customer[] = Kunden;
-    public ap_extern: Person[] = Ansprechpartner;
+    kunden: Customer[] = Kunden;
+    ap_extern: Person[] = Ansprechpartner;
+
     public retouraddress_all =
     [
         {
@@ -153,6 +154,7 @@ export class OrderEingabeComponent implements OnInit {
         return person ? person.name : null;
     }
     private checkForDepartment(department_name, processgroup_id){
+
         return this.ProcessService.checkForDepartment(department_name,processgroup_id);
     }
     get cg_set() {
@@ -177,6 +179,7 @@ export class OrderEingabeComponent implements OnInit {
         this.CgService.getCG().subscribe(val => this.cg_defaults = val);
         this.GenderService.getGender().subscribe(val => this.gender_defaults = val);
         this.ProcessService.getProcess().subscribe( val => this.process_defaults = val);
+
     }
 
     // Object as Selectvalue

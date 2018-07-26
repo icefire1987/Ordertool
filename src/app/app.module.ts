@@ -44,7 +44,8 @@ import { ProcessConcatPipe } from './shared/pipe/process-concat.pipe';
       CgdropdownComponent,
       GenderdropdownComponent,
       ProcessdropdownComponent,
-      ProcessConcatPipe
+      ProcessConcatPipe,
+
 
   ],
   imports: [

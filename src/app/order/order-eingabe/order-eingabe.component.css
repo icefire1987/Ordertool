@@ -3,10 +3,11 @@
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 1fr;
     grid-auto-flow: column;
+    padding: 0 4px;
 }
 
 .grid_cols .col {
-    margin:0  auto;
+    margin: 0  10px;
 }
 
 .field_full mat-form-field{
@@ -18,7 +19,7 @@
     width: auto !important;
 }
 
-cgdropdown {
+mat-select {
     display: block;
     padding: 10px 0;
     width: 400px;
@@ -34,4 +35,55 @@ cgdropdown {
 
 .debug mat-form-field {
     border: 1px solid green;
+}
+.fullwidth{
+    width: 100%;
+}
+.field_inline{
+    display: inline-block;
+}
+.fill-remaining-space{
+    flex: 1 1 auto;
+}
+cgdropdown {
+    width: 400px;
+}
+table.highlight-table {
+    overflow: hidden;
+    width: auto;
+    max-width: 100%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+table.highlight-table td,th {
+    padding: 10px;
+    position: relative;
+    outline: 0;
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+    vertical-align: top;
+    cursor: default;
+}
+
+table.highlight-table th {
+    font-weight: bold;
+}
+
+table.highlight-table thead th {
+    border-bottom-width: 2px;
+}
+
+table.highlight-table tbody th {
+    text-align: left;
+    white-space: nowrap;
+}
+
+table.highlight-table tbody > tr:hover td{
+    background: steelblue;
+}
+
+
+table.highlight-table tbody > tr > td:hover {
+    background: steelblue;
 }

@@ -1,134 +1,158 @@
 <div class="div-padding-10">
   <h2>Auftrag anlegen</h2>
-    <form [formGroup]="orderInputForm">
-  <mat-tab-group>
+        <form [formGroup]="orderInputForm">
+      <mat-tab-group>
 
-    <mat-tab label="Allgemeine Informationen">
-        <div class="grid_cols debug">
-          <div class="col field_full">
-                  <mat-form-field hintLabel="In LV generieren">
-                    <input matInput formControlName="number" placeholder="Auftragsnummer">
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-select placeholder="Kunde" formControlName="customer"  (change)="getRetouraddress($event)" [compareWith]="compareFn">
-                      <mat-option *ngFor="let customer of kunden" [value]="customer">
-                        {{ customer.name }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                  <mat-form-field>
-                      <mat-select placeholder="Retouradresse" formControlName="retouraddress" [compareWith]="compareFn">
-                          <mat-option *ngFor="let retouraddress of retouraddresses" [value]="retouraddress">
-                              {{ retouraddress.description }}
+        <mat-tab label="Allgemeine Informationen">
+            <div class="grid_cols">
+              <div class="col field_full">
+                      <mat-form-field hintLabel="In LV generieren">
+                        <input matInput formControlName="number" placeholder="Auftragsnummer">
+                      </mat-form-field>
+                      <mat-form-field>
+                        <mat-select placeholder="Kunde" formControlName="customer"  (change)="getRetouraddress($event)" [compareWith]="compareFn">
+                          <mat-option *ngFor="let customer of kunden" [value]="customer">
+                            {{ customer.name }}
                           </mat-option>
-                      </mat-select>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <input matInput [matDatepicker]="date_delivery" placeholder="Anlieferungsdatum" formControlName="date_delivery">
-                    <mat-datepicker-toggle matSuffix [for]="date_delivery"></mat-datepicker-toggle>
-                    <mat-datepicker #date_delivery></mat-datepicker>
-                  </mat-form-field>
+                        </mat-select>
+                      </mat-form-field>
+                      <mat-form-field>
+                          <mat-select placeholder="Retouradresse" formControlName="retouraddress" [compareWith]="compareFn">
+                              <mat-option *ngFor="let retouraddress of retouraddresses" [value]="retouraddress">
+                                  {{ retouraddress.description }}
+                              </mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                      <mat-form-field>
+                        <input matInput [matDatepicker]="date_delivery" placeholder="Anlieferungsdatum" formControlName="date_delivery">
+                        <mat-datepicker-toggle matSuffix [for]="date_delivery"></mat-datepicker-toggle>
+                        <mat-datepicker #date_delivery></mat-datepicker>
+                      </mat-form-field>
 
-                  <mat-form-field>
-                      <input matInput [matDatepicker]="date_return_data" placeholder="Deadline Bildabgabe" formControlName="date_return_data">
-                      <mat-datepicker-toggle matSuffix [for]="date_return_data"></mat-datepicker-toggle>
-                      <mat-datepicker #date_return_data></mat-datepicker>
+                      <mat-form-field>
+                          <input matInput [matDatepicker]="date_return_data" placeholder="Deadline Bildabgabe" formControlName="date_return_data">
+                          <mat-datepicker-toggle matSuffix [for]="date_return_data"></mat-datepicker-toggle>
+                          <mat-datepicker #date_return_data></mat-datepicker>
+                      </mat-form-field>
+                  <!-- Deadline Start -->
+                      <mat-form-field>
+                          <input matInput [matDatepicker]="date_return_article" placeholder="Deadline Artikelretour" formControlName="date_return_article">
+                          <mat-datepicker-toggle matSuffix [for]="date_return_article"></mat-datepicker-toggle>
+                          <mat-datepicker #date_return_article></mat-datepicker>
+                      </mat-form-field>
+                  <!-- Deadline End-->
+                  <!-- AP Start -->
+                      <mat-form-field>
+                          <input matInput formControlName="logistik_retourap" placeholder="Ansprechpartner" [matAutocomplete]="auto_ap_extern">
+                      </mat-form-field>
+                  <!-- AutoComplete -->
+                      <mat-autocomplete #auto_ap_extern="matAutocomplete" [displayWith]="displayPersonName">
+                          <mat-option *ngFor="let option of filteredOptions_ap_extern | async" [value]="option">{{option.name}}</mat-option>
+                      </mat-autocomplete>
+                  <!-- AP End-->
+                      <mat-form-field>
+                         <textarea matInput placeholder="Kommentar zum Auftrag" matTextareaAutosize matAutosizeMinRows="2" formControlName="comment"
+                                   matAutosizeMaxRows="5"></textarea>
                   </mat-form-field>
+                </div>
+                <div class="col">
+                    <mat-toolbar  style="margin-bottom:10px;">
+                        <cgdropdown [model]="cg_defaults" [c]="orderInputForm.controls.cg" formControlName="cg"
+                                    [myPlaceholder]="'Warengruppe hinzufügen'"></cgdropdown>
+                        <!-- This fills the remaining space of the current row -->
+                        <span class="fill-remaining-space"></span>
+                        <button mat-icon-button (click)="FileService.read()">
+                            <mat-icon>file_copy</mat-icon>
+                            <mat-icon>file_upload</mat-icon>
+                        </button>
+                        <input type="file" id="fileUpload" name="fileUpload" multiple="multiple" style="display:none;"/>
+                    </mat-toolbar>
 
-                  <mat-form-field>
-                     <textarea matInput placeholder="Kommentar zum Auftrag" matTextareaAutosize matAutosizeMinRows="2" formControlName="comment"
-                               matAutosizeMaxRows="5"></textarea>
-              </mat-form-field>
-            </div>
-            <div class="col">
-                <cgdropdown [model]="cg_defaults" [c]="orderInputForm.controls.cg" formControlName="cg" [myPlaceholder]="'Warengruppe hinzufügen'"></cgdropdown>
 
-                <div formArrayName="cg_set">
-                    <div *ngFor="let cg_elem of cg_set.controls; let i = index">
-                        <div [formGroupName]="i" class="grid_cols">
-                            <div class="col field_inline">
-                                <cgdropdown class="width-auto" [mySplitLength]="5" [model]="cg_defaults" [myPlaceholder]="'Warengruppe hinzufügen'" [selectedValue]="cg_elem.value.cg"
-                                            [c]="cg_set.controls[i].controls.cg"></cgdropdown>
+                    <div formArrayName="cg_set">
+                        <div *ngFor="let cg_elem of cg_set.controls; let i = index">
+                            <div [formGroupName]="i" class="grid_cols">
+                                <div class="col field_inline">
+                                    <cgdropdown class="width-auto" [mySplitLength]="5" [model]="cg_defaults" [myPlaceholder]="'Warengruppe hinzufügen'" [selectedValue]="cg_elem.value.cg"
+                                                [c]="cg_set.controls[i].controls.cg"></cgdropdown>
+                                </div>
+                                <div class="col field_inline">
+                                    <genderdropdown [model]="gender_defaults" [myPlaceholder]="'Geschlecht wählen'" [selectedValue]="0" [c]="cg_elem.controls.gender"></genderdropdown>
+                                </div>
+                                <div class="col field_inline">
+                                    <processdropdown [model]="process_defaults" [myPlaceholder]="'Prozess wählen'" [c]="cg_elem.controls.process"></processdropdown>
+                                </div>
+                                <div class="col field_inline">
+                                <mat-form-field hintLabel="">
+                                    <input matInput formControlName="amount" placeholder="Artikelanzahl">
+                                </mat-form-field>
+                                </div>
                             </div>
-                            <div class="col field_inline">
-                                <genderdropdown [model]="gender_defaults" [myPlaceholder]="'Geschlecht wählen'" [selectedValue]="0" [c]="cg_elem.controls.gender"></genderdropdown>
-                            </div>
-                            <div class="col">
-                            <mat-form-field hintLabel="">
-                                <input matInput formControlName="amount" placeholder="Artikelanzahl">
-                            </mat-form-field>
-                            </div>
+
                         </div>
-
                     </div>
                 </div>
             </div>
-        </div>
 
-    </mat-tab>
-    <mat-tab label="Logistik">
-        <div class="grid_cols debug">
-            <div class="col field_full">
-            <!-- Deadline Start -->
-                <mat-form-field>
-                    <input matInput [matDatepicker]="date_return_article" placeholder="Deadline Artikelretour" formControlName="date_return_article">
-                    <mat-datepicker-toggle matSuffix [for]="date_return_article"></mat-datepicker-toggle>
-                    <mat-datepicker #date_return_article></mat-datepicker>
-                </mat-form-field>
-            <!-- Deadline End-->
-            <!-- AP Start -->
-                <mat-form-field>
-                    <input matInput formControlName="logistik_retourap" placeholder="Ansprechpartner" [matAutocomplete]="auto_ap_extern">
-                </mat-form-field>
-                <!-- AutoComplete -->
-                <mat-autocomplete #auto_ap_extern="matAutocomplete" [displayWith]="displayPersonName">
-                    <mat-option *ngFor="let option of filteredOptions_ap_extern | async" [value]="option">{{option.name}}</mat-option>
-                </mat-autocomplete>
-            <!-- AP End-->
-                <div *ngFor="let cg_elem of cg_set.controls; let i = index">
-                    <div class="grid_cols">
-                        <div class="col field_inline">
-                            <p>{{CgService.getNameById(cg_elem.value.cg)}}</p>
-                            <p>{{GenderService.getNameById(cg_elem.value.gender)}}</p>
-                        </div>
-                        <div class="col field_inline">
-                            <processdropdown [model]="process_defaults" [myPlaceholder]="'Prozess wählen'" [c]="cg_elem.controls.process"></processdropdown>
-                        </div>
-                        <!--
-                        cg_elem.controls.gender.value
-                        cg_elem.value.gender
-                        -->
+        </mat-tab>
+        <mat-tab label="Logistik">
 
-                    </div>
-                </div>
-            </div>
-        </div>
-    </mat-tab>
-    <mat-tab label="Foto">
-        <div *ngFor="let elem of cg_set.controls; let i = index">
-            <div class="grid_cols" *ngIf="checkForDepartment('Foto', elem.controls.process.value)">
-                <div class="col field_inline">
+            <table class="highlight-table fullwidth">
+                <tr>
+                    <th>WG</th><th>Geschlecht</th><th>Prozess</th><th>Anzahl</th>
+                </tr>
+                <tr *ngFor="let elem of cg_set.controls; let i = index">
+                    <td>{{CgService.getNameById(elem.value.cg)}}</td>
+                    <td>{{GenderService.getNameById(elem.value.gender)}}</td>
+                    <td>{{ProcessService.getNameById(elem.value.process)}}</td>
+                    <td>{{elem.value.amount}}</td>
+                </tr>
+            </table>
 
-                </div>
-                <div class="col field_inline">
+        </mat-tab>
+        <mat-tab label="Foto">
+            <table class="highlight-table fullwidth">
+                <tr>
+                    <th>WG</th><th>Geschlecht</th><th>Prozess</th><th>Anzahl</th>
+                </tr>
+                <tr *ngFor="let elem of cg_set.controls; let i = index">
+                    <ng-container *ngIf="this.ProcessService.checkForDepartment('Foto', elem.value.process)">
+                        <td>{{CgService.getNameById(elem.value.cg)}}</td>
+                        <td>{{GenderService.getNameById(elem.value.gender)}}</td>
+                        <td>{{ProcessService.getNameById(elem.value.process)}}</td>
+                        <td>{{elem.value.amount}}</td>
+                    </ng-container>
+                </tr>
+            </table>
 
-                </div>
-                <!--
-                cg_elem.controls.gender.value
-                cg_elem.value.gender
-                -->
 
-            </div>
-        </div>
-    </mat-tab>
-    <mat-tab label="Postproduction">
-      No content
-    </mat-tab>
-    <mat-tab label="Content">
-      No content
-    </mat-tab>
+                    <!--
+                    cg_elem.controls.gender.value
+                    cg_elem.value.gender
+                    -->
 
-  </mat-tab-group>
+
+        </mat-tab>
+        <mat-tab label="Postproduction">
+          No content
+        </mat-tab>
+        <mat-tab label="Content">
+            <table class="highlight-table fullwidth">
+                <tr>
+                    <th>WG</th><th>Geschlecht</th><th>Prozess</th><th>Anzahl</th>
+                </tr>
+                <tr *ngFor="let elem of cg_set.controls; let i = index">
+                    <ng-container *ngIf="this.ProcessService.checkForDepartment('Content', elem.value.process)">
+                        <td>{{CgService.getNameById(elem.value.cg)}}</td>
+                        <td>{{GenderService.getNameById(elem.value.gender)}}</td>
+                        <td>{{ProcessService.getNameById(elem.value.process)}}</td>
+                        <td>{{elem.value.amount}}</td>
+                    </ng-container>
+                </tr>
+            </table>
+        </mat-tab>
+
+      </mat-tab-group>
         <div>
 
             <app-comment *ngIf="this.orderInputForm.value.id" [order_id]="this.orderInputForm.value.id"></app-comment>
@@ -140,6 +164,4 @@
 
 </div>
 
-<p class="" style="display:block">Form value: {{ orderInputForm.value | json }}</p>
-{{process_defaults | json}}
-
+<p class="" style="display:hidden">Form value: {{ orderInputForm.value | json }}</p>
