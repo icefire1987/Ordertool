@@ -6,5 +6,9 @@ import { Injectable } from '@angular/core';
 export class FileService {
 
   constructor() { }
-  //https://malcoded.com/posts/angular-file-upload-component-with-express
+
+  read(){
+
+  }
+  //
 }

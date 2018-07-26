@@ -1,0 +1,5 @@
+<button mat-icon-button (click)="addFiles()">
+  <mat-icon>file_copy</mat-icon>
+  <mat-icon>file_upload</mat-icon>
+</button>
+<input type="file" #file style="display:none;" (change)="onFilesAdded()"/>

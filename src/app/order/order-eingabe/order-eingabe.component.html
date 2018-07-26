@@ -61,11 +61,8 @@
                                     [myPlaceholder]="'Warengruppe hinzufügen'"></cgdropdown>
                         <!-- This fills the remaining space of the current row -->
                         <span class="fill-remaining-space"></span>
-                        <button mat-icon-button (click)="FileService.read()">
-                            <mat-icon>file_copy</mat-icon>
-                            <mat-icon>file_upload</mat-icon>
-                        </button>
-                        <input type="file" id="fileUpload" name="fileUpload" multiple="multiple" style="display:none;"/>
+                        <upload (contentReadEvent)="readFilecontent($event)"></upload>
+
                     </mat-toolbar>
 
 

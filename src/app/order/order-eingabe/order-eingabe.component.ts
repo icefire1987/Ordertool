@@ -29,6 +29,8 @@ export class OrderEingabeComponent implements OnInit {
     kunden: Customer[] = Kunden;
     ap_extern: Person[] = Ansprechpartner;
 
+    filecontent: {};
+    fileListener: Observable<any>;
     public retouraddress_all =
     [
         {
@@ -160,6 +162,11 @@ export class OrderEingabeComponent implements OnInit {
     get cg_set() {
         return this.orderInputForm.get('cg_set') as FormArray;
     }
+
+    readFilecontent($event){
+        console.log($event);
+    }
+
     ngOnInit() {
         // Eventlistener
         this.filteredOptions_ap_extern = this.orderInputForm.get('logistik_retourap').valueChanges
@@ -173,6 +180,8 @@ export class OrderEingabeComponent implements OnInit {
                     }
                 })
             );
+
+
 
 
 
