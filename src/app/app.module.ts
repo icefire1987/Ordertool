@@ -21,7 +21,7 @@ import { OrderListComponent } from './order/order-list/order-list.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 import { MatMomentDateModule, MomentDateAdapter } from '@angular/material-moment-adapter';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material";
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatDialogModule} from "@angular/material";
 import { CommentComponent } from './comment/comment.component';
 import { CgConcatPipe } from './shared/pipe/cg-concat.pipe';
 import { CgdropdownComponent } from './cgdropdown/cgdropdown.component';
@@ -29,10 +29,11 @@ import { GenderdropdownComponent } from './genderdropdown/genderdropdown.compone
 import { ProcessdropdownComponent } from './processdropdown/processdropdown.component';
 import { ProcessConcatPipe } from './shared/pipe/process-concat.pipe';
 import { UploadComponent } from './file/upload/upload.component';
+import {DialogPreviewComponent} from "./file/dialog-preview/dialog-preview.component";
 
 
 @NgModule({
-  declarations: [
+    declarations: [
       AppComponent,
       DashboardComponent,
       PageNotFoundComponent,
@@ -47,23 +48,29 @@ import { UploadComponent } from './file/upload/upload.component';
       ProcessdropdownComponent,
       ProcessConcatPipe,
       UploadComponent,
+      DialogPreviewComponent,
 
 
-  ],
-  imports: [
+    ],
+    imports: [
         BrowserModule,
         BrowserAnimationsModule,
         OwnMaterialModule,
         AuthentificationModule,
         RoutingModule,
-        FormsModule, ReactiveFormsModule,
-      MatMomentDateModule
-  ],
-  providers: [
+        FormsModule,
+          ReactiveFormsModule,
+          MatMomentDateModule,
+          MatDialogModule
+    ],
+    providers: [
       OrderService,
       {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
       {provide: MAT_DATE_LOCALE, useValue: 'de-DE'}
       ],
-  bootstrap: [AppComponent]
+    entryComponents: [
+        DialogPreviewComponent
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
