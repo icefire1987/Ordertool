@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {MatDialogRef, MatButton} from "@angular/material";
+import {Component, Inject} from '@angular/core';
+import {MatDialogRef, MatButton, MAT_DIALOG_DATA} from "@angular/material";
 
 
 @Component({
@@ -10,7 +10,8 @@ import {MatDialogRef, MatButton} from "@angular/material";
 export class DialogPreviewComponent {
 
   constructor(
-      public dialogRef: MatDialogRef<DialogPreviewComponent>
+      public dialogRef: MatDialogRef<DialogPreviewComponent>,
+      @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   onNoClick(): void {
