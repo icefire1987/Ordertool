@@ -12,10 +12,11 @@ export class DialogPreviewComponent {
   constructor(
       public dialogRef: MatDialogRef<DialogPreviewComponent>,
       @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) {
+  }
 
-  onNoClick(): void {
-    this.dialogRef.close();
+  onOKClick(): void {
+    this.dialogRef.close(this.data.files);
   }
 
 }

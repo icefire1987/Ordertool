@@ -29,7 +29,7 @@ export class OrderEingabeComponent implements OnInit {
     kunden: Customer[] = Kunden;
     ap_extern: Person[] = Ansprechpartner;
 
-    filecontent: {};
+    filecontent: Set<File> = new Set();
     fileListener: Observable<any>;
     public retouraddress_all =
     [
@@ -164,7 +164,9 @@ export class OrderEingabeComponent implements OnInit {
     }
 
     readFilecontent($event){
-        console.log($event);
+        $event.data.forEach(item => this.filecontent.add(item));
+
+        console.log(this.filecontent)
     }
 
     ngOnInit() {

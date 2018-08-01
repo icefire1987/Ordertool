@@ -1,6 +1,10 @@
-<h1 mat-dialog-title>Hi {{data.name}}</h1>
+<h1 mat-dialog-title>Dateiupload bestätigen</h1>
 
+<section *ngFor="let file of data.files" class="mat-typography">
+  <h1>{{file.name}} <mat-icon>{{file.icon_filetyp}}</mat-icon> </h1>
+  <h3>{{file.size/(1024*1000) | number:'1.2-2' }} MB</h3>
+</section>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="data.name" cdkFocusInitial>Ok</button>
+  <button mat-button [mat-dialog-close]>No Thanks</button>
+  <button mat-button (click)="onOKClick()" cdkFocusInitial>Ok</button>
 </div>

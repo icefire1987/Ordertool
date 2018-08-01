@@ -88,6 +88,9 @@
 
                         </div>
                     </div>
+                    <mat-list *ngFor="let file of filecontent">
+                        <mat-list-item>{{file.name}} <button mat-icon-button color="warn"><mat-icon>delete</mat-icon></button></mat-list-item>
+                    </mat-list>
                 </div>
             </div>
 
@@ -150,12 +153,12 @@
         </mat-tab>
 
       </mat-tab-group>
-        <div>
+    <div>
 
-            <app-comment *ngIf="this.orderInputForm.value.id" [order_id]="this.orderInputForm.value.id"></app-comment>
+        <app-comment *ngIf="this.orderInputForm.value.id" [order_id]="this.orderInputForm.value.id"></app-comment>
 
-            <button mat-raised-button color="primary" type="button" (click)="saveOrder()" [disabled]="orderInputForm.invalid">Speichern</button>
-        </div>
+        <button mat-raised-button color="primary" type="button" (click)="saveOrder()" [disabled]="orderInputForm.invalid">Speichern</button>
+    </div>
 
     </form>
 
