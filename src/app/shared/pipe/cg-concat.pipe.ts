@@ -6,6 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class CgConcatPipe implements PipeTransform {
 
     transform(value: any, args?: any): any {
+        value.sort(this.sortBySort);
 
         let concat_string = "";
         for(let child of value){
@@ -17,7 +18,9 @@ export class CgConcatPipe implements PipeTransform {
                         // nur minimal länger, lieber Leerzeichen kürzen
                         separator = "-";
                     }else if(child.name.length - child.name.match(/[aeiou]/gi).length < (args.splitlength + 3)){
-                        viewValue = child.name.replace(/[aeiou]/ig,'')
+                        let first = child.name.substring(0,1);
+                        let aString = child.name.substring(1,child.name.length);
+                        viewValue = first + aString.replace(/[aeiou]/ig,'');
                     }else{
                         viewValue = child.name.substring(0,args.splitlength);
                     }
@@ -26,6 +29,14 @@ export class CgConcatPipe implements PipeTransform {
             concat_string += viewValue + separator;
         }
         return concat_string.slice(0,-3);
+    }
+
+    sortBySort(a,b){
+        if (a.sort < b.sort)
+            return -1;
+        if (a.sort > b.sort)
+            return 1;
+        return 0;
     }
 
 }

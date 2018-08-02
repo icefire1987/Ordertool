@@ -13,6 +13,8 @@ export class GenderService {
       {id: 1, name: "Mann", icon: ""},
       {id: 2, name: "Frau", icon: ""},
       {id: 3, name: "Kind", icon: ""},
+      {id: 4, name: "Junge", icon: ""},
+      {id: 5, name: "Mädchen", icon: ""},
   ]
 
     getGender(filter?){

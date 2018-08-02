@@ -1,67 +1,112 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import {Processgroup} from "../interfaces/processgroup";
+import {Process, Processgroup} from "../interfaces/processgroup";
 @Injectable({
   providedIn: 'root'
 })
 export class ProcessService {
 
-    temp:Processgroup[] = [
-        {
-            processgroup_id: 1,
-            elements: [
-                {
-                    process:{
-                        process_id: 11,
-                        name: "Puppe",
-                        type: "Freisteller",
-                        department: "Foto"
-                    },
-                    sort: 1
-                },
-                {
-                    process:{
-                        process_id: 11,
-                        name: "Content",
-                        type: "Content",
-                        department: "Content"
-                    },
-                    sort: 2
-                }
-            ]
-        },
-        {
-            processgroup_id: 2,
-            elements: [
-                {
-                    process:{
-                        process_id: 11,
-                        name: "Looklet",
-                        type: "Freisteller",
-                        department: "Foto"
-                    },
-                    sort: 1
-                },
-                {
-                    process:{
-                        process_id: 11,
-                        name: "Detailansicht",
-                        type: "Model",
-                        department: "Foto"
-                    },
-                    sort: 2
-                }
-            ]
-        }
+    temp1:Processgroup[] = [{
+        processgroup_id: 1, elements: [{
+            process:{
+                process_id: 1,
+                name: "Puppe",
+                type: "Freisteller",
+                department: "Foto"
+            },
+            sort: 1
+        },{
+            process:{
+                process_id: 21,
+                name: "PostProduction",
+                type: "PostProduction",
+                department: "PostProduction"
+            },
+            sort: 2
+        },{
+            process:{
+                process_id: 31,
+                name: "Content",
+                type: "Content",
+                department: "Content"
+            },
+            sort: 3
+        }]}
     ];
 
+    temp = [
+        {
+            process_id: 1,
+            name: "Puppe",
+            type: "Freisteller",
+            department: "Foto"
+        },{
+            process_id: 2,
+            name: "Legetisch",
+            type: "Freisteller",
+            department: "Foto"
+        },{
+            process_id: 3,
+            name: "Schuhtisch",
+            type: "Freisteller",
+            department: "Foto"
+        },{
+            process_id: 4,
+            name: "Cube",
+            type: "Freisteller",
+            department: "Foto"
+        },{
+            process_id: 5,
+            name: "OrbitVu",
+            type: "Freisteller",
+            department: "Foto"
+        },{
+            process_id: 6,
+            name: "Looklet",
+            type: "Freisteller",
+            department: "Foto"
+        },{
+
+            process_id: 7,
+            name: "Model FS",
+            type: "Model",
+            department: "Foto"
+        },{
+            process_id: 8,
+            name: "Model",
+            type: "Model",
+            department: "Foto"
+        },{
+            process_id: 10,
+            name: "Looklet",
+            type: "Freisteller",
+            department: "Foto"
+        },{
+            process_id: 11,
+            name: "Looklet",
+            type: "Model",
+            department: "Foto"
+        },{
+            process_id: 21,
+            name: "PostProduction",
+            type: "PostProduction",
+            department: "PostProduction"
+        },{
+            process_id: 31,
+            name: "Content",
+            type: "Content",
+            department: "Content"
+        }
+    ];
+    currentProcessGroup:Process;
     constructor() { }
 
     getProcess(filter?){
         return of(this.temp);
     };
+    /*
     checkForDepartment(department_name, processgroup_id): boolean{
-        let elem =  this.temp.filter(elem => elem.processgroup_id === processgroup_id)[0];
+        let elem =  this.currentProcessGroup.filter(elem => elem.processgroup_id === processgroup_id)[0];
         if(typeof elem != "undefined"){
             return elem.elements.some( elem => {
                 return elem.process.department === department_name;
@@ -84,5 +129,30 @@ export class ProcessService {
 
 
     };
+*/
+    checkForDepartment(){
+        return true;
+    }
+    getNameById(process_id){
+        console.log(process_id);
+        let obj =  this.temp.filter(elem => elem.process_id === process_id)[0];
+        console.log(obj)
+        return obj.name;
+    }
+    createName(processgroup:Array<any>):string{
+        let name="";
 
+        if(processgroup.length>0){
+            processgroup.sort();
+            console.log(processgroup)
+            processgroup.forEach(process_id => {
+                name += this.getNameById(process_id) + "+";
+            });
+            name = name.slice(0,-1);
+        }
+
+
+
+        return name;
+    }
 }

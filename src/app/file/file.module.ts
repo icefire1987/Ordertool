@@ -4,6 +4,10 @@ import { UploadComponent } from './upload/upload.component';
 import { MatButtonModule, MatDialogModule, MatListModule, MatProgressBarModule } from '@angular/material';
 import { DialogPreviewComponent } from './dialog-preview/dialog-preview.component';
 
+export interface MyFile extends File{
+    icon_filetype: string;
+}
+
 @NgModule({
     imports: [
         CommonModule,
@@ -21,3 +25,4 @@ import { DialogPreviewComponent } from './dialog-preview/dialog-preview.componen
     exports: [UploadComponent],
 })
 export class FileModule { }
+

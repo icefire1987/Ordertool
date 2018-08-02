@@ -89,7 +89,8 @@ export class OrderEingabeComponent implements OnInit {
             logistik_retourap: "",
             cg: "",
             cg2: "",
-            cg_set: this.fb.array([])
+            cg_set: this.fb.array([]),
+            formfiles:  this.fb.array([])
         });
 
         this.orderInputForm.get('customer').valueChanges.subscribe(val => {
@@ -162,13 +163,30 @@ export class OrderEingabeComponent implements OnInit {
     get cg_set() {
         return this.orderInputForm.get('cg_set') as FormArray;
     }
-
+    get formfiles() {
+        return this.orderInputForm.get('formfiles') as FormArray;
+    }
     readFilecontent($event){
-        $event.data.forEach(item => this.filecontent.add(item));
+        let reader = new FileReader();
+        $event.data.forEach(item => {
+            //this.filecontent.add(item);
+            reader.readAsDataURL(item);
+            reader.onload = () => {
+                this.formfiles.push(new FormControl({
+                    name: item.name,
+                    data: reader.result
+                }));
+
+            }
+        });
 
         console.log(this.filecontent)
     }
 
+    removefile(file){
+        //this.filecontent.delete(file);
+        this.formfiles.removeAt(this.formfiles.value.findIndex(item => item.name === file.name))
+    }
     ngOnInit() {
         // Eventlistener
         this.filteredOptions_ap_extern = this.orderInputForm.get('logistik_retourap').valueChanges

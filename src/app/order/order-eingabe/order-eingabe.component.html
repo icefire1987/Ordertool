@@ -88,8 +88,8 @@
 
                         </div>
                     </div>
-                    <mat-list *ngFor="let file of filecontent">
-                        <mat-list-item>{{file.name}} <button mat-icon-button color="warn"><mat-icon>delete</mat-icon></button></mat-list-item>
+                    <mat-list *ngFor="let file of formfiles.controls">
+                        <mat-list-item><button mat-icon-button color="warn"><mat-icon (click)="removefile(file.value)">delete</mat-icon></button> {{file.value.name}} </mat-list-item>
                     </mat-list>
                 </div>
             </div>
@@ -104,7 +104,7 @@
                 <tr *ngFor="let elem of cg_set.controls; let i = index">
                     <td>{{CgService.getNameById(elem.value.cg)}}</td>
                     <td>{{GenderService.getNameById(elem.value.gender)}}</td>
-                    <td>{{ProcessService.getNameById(elem.value.process)}}</td>
+                    <td>{{ProcessService.createName(elem.value.process)}}</td>
                     <td>{{elem.value.amount}}</td>
                 </tr>
             </table>
@@ -119,7 +119,7 @@
                     <ng-container *ngIf="this.ProcessService.checkForDepartment('Foto', elem.value.process)">
                         <td>{{CgService.getNameById(elem.value.cg)}}</td>
                         <td>{{GenderService.getNameById(elem.value.gender)}}</td>
-                        <td>{{ProcessService.getNameById(elem.value.process)}}</td>
+                        <td>{{ProcessService.createName(elem.value.process)}}</td>
                         <td>{{elem.value.amount}}</td>
                     </ng-container>
                 </tr>
@@ -145,7 +145,7 @@
                     <ng-container *ngIf="this.ProcessService.checkForDepartment('Content', elem.value.process)">
                         <td>{{CgService.getNameById(elem.value.cg)}}</td>
                         <td>{{GenderService.getNameById(elem.value.gender)}}</td>
-                        <td>{{ProcessService.getNameById(elem.value.process)}}</td>
+                        <td>{{ProcessService.createName(elem.value.process)}}</td>
                         <td>{{elem.value.amount}}</td>
                     </ng-container>
                 </tr>
