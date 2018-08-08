@@ -25,7 +25,8 @@ export class OrderEingabeComponent implements OnInit {
 
     cg_defaults: CommodityGroup[];
     gender_defaults: any;
-    process_defaults: Processgroup[];
+    //process_defaults: Processgroup[];
+    process_defaults;
     kunden: Customer[] = Kunden;
     ap_extern: Person[] = Ansprechpartner;
 

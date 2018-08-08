@@ -130,7 +130,7 @@ export class ProcessService {
 
     };
 */
-    checkForDepartment(){
+    checkForDepartment(a,b){
         return true;
     }
     getNameById(process_id){
