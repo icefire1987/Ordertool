@@ -67,6 +67,7 @@ export class OrderEingabeComponent implements OnInit {
             if(params.id != null){
                 this.getOrder({key: "id", value: params.id}).subscribe(
                     aOrder => {
+                        console.log(aOrder)
                         this.orderInputForm.patchValue(aOrder);
                     }
                 );
@@ -126,8 +127,9 @@ export class OrderEingabeComponent implements OnInit {
         this.isLoading = true;
         return this.orderService.readOrder(filter)
             .map(res => {
+                console.log(res)
                 this.isLoading = false;
-                if(res.length==1){
+                if (res.length === 1) {
                     return res[0];
                 }else{
                     return null;

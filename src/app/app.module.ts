@@ -30,6 +30,7 @@ import { ProcessdropdownComponent } from './processdropdown/processdropdown.comp
 import { ProcessConcatPipe } from './shared/pipe/process-concat.pipe';
 import { UploadComponent } from './file/upload/upload.component';
 import {DialogPreviewComponent} from "./file/dialog-preview/dialog-preview.component";
+import { HttpClientModule} from '@angular/common/http';
 
 
 @NgModule({
@@ -59,9 +60,10 @@ import {DialogPreviewComponent} from "./file/dialog-preview/dialog-preview.compo
         AuthentificationModule,
         RoutingModule,
         FormsModule,
-          ReactiveFormsModule,
-          MatMomentDateModule,
-          MatDialogModule
+        ReactiveFormsModule,
+        MatMomentDateModule,
+        MatDialogModule,
+        HttpClientModule
     ],
     providers: [
       OrderService,

@@ -87,3 +87,7 @@ table.highlight-table tbody > tr:hover td{
 table.highlight-table tbody > tr > td:hover {
     background: steelblue;
 }
+
+.text-center {
+    text-align: center;
+}
