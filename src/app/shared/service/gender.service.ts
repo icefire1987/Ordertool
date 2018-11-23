@@ -1,27 +1,46 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import {HelperService} from './helper.service';
+import {HttpClient} from '@angular/common/http';
+import {Customer} from '../interfaces/order';
+import {APIResponse} from '../interfaces/apiresponse';
+import {catchError, map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GenderService {
+    private uri = '';
+    private url_base = 'http://localhost:3000/api/v1';
 
-  constructor() { }
+    gender: any;
 
-  private temp_gender = [
-      {id: 0, name: "Uni", icon: ""},
-      {id: 1, name: "Mann", icon: ""},
-      {id: 2, name: "Frau", icon: ""},
-      {id: 3, name: "Kind", icon: ""},
-      {id: 4, name: "Junge", icon: ""},
-      {id: 5, name: "Mädchen", icon: ""},
-  ]
+    constructor(private HelperService: HelperService, private http: HttpClient) { }
 
-    getGender(filter?){
-        return of(this.temp_gender);
-    };
+    get(filter?: {key, value} ): Observable<any[]> {
+        this.uri = this.url_base + '/gender';
+        if (filter && filter.key === 'id') {
+            this.uri = this.url_base + '/gender/id/' + filter.value;
+        }
+        return this.http.get<APIResponse>(this.uri).pipe(
+            map( (res: APIResponse) => {
+                this.gender = this.HelperService.extractData(res);
+                return this.gender;
+            }),
+            catchError(this.HelperService.handleError)
+
+        );
+    }
+
+
     getNameById(id: number){
-        let obj =  this.temp_gender.filter(elem => elem.id === id)[0];
-        return obj.name;
+        if (typeof this.gender === 'undefined' || !~('length' in this.gender) ) {
+            return '';
+        }
+        let obj =  this.gender.filter(elem => elem.id === id)[0];
+        if (typeof obj !== 'undefined') {
+            return obj.name;
+        }
+        return null;
     };
 }

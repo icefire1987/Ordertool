@@ -12,6 +12,7 @@ import {CgService} from "../../shared/service/cg.service";
 import {GenderService} from "../../shared/service/gender.service";
 import {Processgroup} from "../../shared/interfaces/processgroup";
 import {ProcessService} from "../../shared/service/process.service";
+import {CustomerService} from '../../shared/service/customer.service';
 
 @Component({
   selector: 'app-order-eingabe',
@@ -27,7 +28,7 @@ export class OrderEingabeComponent implements OnInit {
     gender_defaults: any;
     //process_defaults: Processgroup[];
     process_defaults;
-    kunden: Customer[] = Kunden;
+    kunden: Customer[];
     ap_extern: Person[] = Ansprechpartner;
 
     filecontent: Set<File> = new Set();
@@ -50,7 +51,7 @@ export class OrderEingabeComponent implements OnInit {
       }
     ];
     public retouraddresses: Address[];
-
+    aOrder;
 // CONSTRUCTOR
     constructor(
       private fb: FormBuilder,
@@ -60,18 +61,28 @@ export class OrderEingabeComponent implements OnInit {
       private CgService: CgService,
       private GenderService: GenderService,
       private ProcessService: ProcessService,
+      private CustomerService: CustomerService,
     ) {
+
     this.createForm();
     this.route.params
         .subscribe((params: any) => {
-            if(params.id != null){
-                this.getOrder({key: "id", value: params.id}).subscribe(
-                    aOrder => {
-                        console.log(aOrder)
+            if (params.id != null) {
+                this.getOrder( {key: 'id', value: params.id}).subscribe(
+                    (aOrder: Order ) => {
                         this.orderInputForm.patchValue(aOrder);
+
+                        aOrder.cg_set.forEach( aCG => {
+                            const x = {
+                                cg: aCG.cg,
+                                gender: aCG.gender,
+                                amount: aCG.amount,
+                                process: this.fb.array(aCG.process)
+                            };
+                            this.cg_set.push(this.fb.group(x));
+                        });
                     }
                 );
-
             }
 
         });
@@ -89,10 +100,9 @@ export class OrderEingabeComponent implements OnInit {
             date_return_data: "",
             comment: "",
             logistik_retourap: "",
-            cg: "",
-            cg2: "",
             cg_set: this.fb.array([]),
-            formfiles:  this.fb.array([])
+            formfiles:  this.fb.array([]),
+            cg: ''
         });
 
         this.orderInputForm.get('customer').valueChanges.subscribe(val => {
@@ -103,7 +113,7 @@ export class OrderEingabeComponent implements OnInit {
             if( val){
                 this.cg_set.push(this.fb.group({
                     cg: val,
-                    gender: 0,
+                    gender: null,
                     amount: 0,
                     process: 0
                 }));
@@ -116,30 +126,26 @@ export class OrderEingabeComponent implements OnInit {
 
 
 
-    validateSubscribe(returnedObj){
-      console.log("validate")
+    validateSubscribe(returnedObj) {
         return returnedObj.subscribe(
             result => {return result;},
             error => {console.error(error);}
-        )
+        );
     }
     getOrder(filter){
         this.isLoading = true;
         return this.orderService.readOrder(filter)
             .map(res => {
-                console.log(res)
                 this.isLoading = false;
                 if (res.length === 1) {
                     return res[0];
                 }else{
                     return null;
                 }
-
-            })
+            });
     }
     saveOrder(){
         //TODO
-        this.orderInputForm.value.id = 9;
         this.orderService.createOrder(this.orderInputForm.value).subscribe(orders => {
             this.router.navigate(['protected/dashboard']);
         });
@@ -151,9 +157,9 @@ export class OrderEingabeComponent implements OnInit {
           }
         }
     }
-    private filter_ap_extern(value:string):Person[]{
+    private filter_ap_extern(value: string): Person[] {
         let inputvalue = value.toLowerCase();
-        return this.ap_extern.filter(aPerson=> aPerson.name.toLowerCase().includes(inputvalue));
+        return this.ap_extern.filter(aPerson => aPerson.name.toLowerCase().includes(inputvalue));
     }
 
     private displayPersonName(person?: Person){
@@ -208,14 +214,19 @@ export class OrderEingabeComponent implements OnInit {
 
 
 
-        this.CgService.getCG().subscribe(val => this.cg_defaults = val);
-        this.GenderService.getGender().subscribe(val => this.gender_defaults = val);
-        this.ProcessService.getProcess().subscribe( val => this.process_defaults = val);
-
+        this.CgService.get().subscribe(val => this.cg_defaults = val);
+        this.GenderService.get().subscribe(val => this.gender_defaults = val);
+        this.ProcessService.get().subscribe( val => this.process_defaults = val);
+        this.CustomerService.get().subscribe(val => this.kunden = val);
     }
 
     // Object as Selectvalue
     compareFn: ((f1: any, f2: any) => boolean) | null = this.compareByValue;
+    compareFn_id: ((f1: any, f2: any) => boolean) | null = this.compareById;
+
+    compareById(f1: any, f2: any) {
+        return f1 && f2 && f1.id === f2.id;
+    }
     compareByValue(f1: any, f2: any) {
         return f1 && f2 && f1.value === f2.value;
     }

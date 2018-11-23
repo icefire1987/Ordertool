@@ -13,7 +13,7 @@ var orderController = require('../controllers/OrderController');
         })
         .delete('/:id',orderController.delete_order)
 
-        .put('/new', orderController.create_order)
+        .put('/:id', orderController.update_order)
         .post('/new', orderController.create_order)
 /*
 

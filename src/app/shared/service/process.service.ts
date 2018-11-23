@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import {Process, Processgroup} from "../interfaces/processgroup";
+import {Process, Processgroup} from '../interfaces/processgroup';
+import {HelperService} from './helper.service';
+import {HttpClient} from '@angular/common/http';
+import {APIResponse} from '../interfaces/apiresponse';
+import {catchError, map} from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -99,11 +103,33 @@ export class ProcessService {
         }
     ];
     currentProcessGroup:Process;
-    constructor() { }
 
-    getProcess(filter?){
-        return of(this.temp);
-    };
+    private uri = '';
+    private url_base = 'http://localhost:3000/api/v1';
+
+    stages: any;
+
+    constructor(private HelperService: HelperService, private http: HttpClient) { }
+
+    get(filter?: {key, value} ): Observable<any[]> {
+        this.uri = this.url_base + '/stages';
+        if (filter && filter.key === 'id') {
+            this.uri = this.url_base + '/stages/id/' + filter.value;
+        }
+        return this.http.get<APIResponse>(this.uri).pipe(
+            map( (res: APIResponse) => {
+                this.stages = this.HelperService.extractData(res);
+                return this.stages;
+            }),
+            catchError(this.HelperService.handleError)
+
+        );
+    }
+
+
+    getProcess(filter?) {
+        return this.stages;
+    }
     /*
     checkForDepartment(department_name, processgroup_id): boolean{
         let elem =  this.currentProcessGroup.filter(elem => elem.processgroup_id === processgroup_id)[0];
@@ -130,25 +156,26 @@ export class ProcessService {
 
     };
 */
-    checkForDepartment(a,b){
+    checkForDepartment(a,b) {
         return true;
     }
-    getNameById(process_id){
-        console.log(process_id);
+    getNameById(process_id) {
         let obj =  this.temp.filter(elem => elem.process_id === process_id)[0];
-        console.log(obj)
-        return obj.name;
+        if (typeof obj !== 'undefined') {
+            return obj.name;
+        }
+        return null;
     }
-    createName(processgroup:Array<any>):string{
-        let name="";
+    createName(processgroup: Array<any>): string{
+        let name = '';
 
-        if(processgroup.length>0){
+        if (processgroup.length > 0) {
             processgroup.sort();
-            console.log(processgroup)
+
             processgroup.forEach(process_id => {
-                name += this.getNameById(process_id) + "+";
+                name += this.getNameById(process_id) + '+';
             });
-            name = name.slice(0,-1);
+            name = name.slice(0, -1);
         }
 
 

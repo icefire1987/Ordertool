@@ -7,8 +7,7 @@ var config = require('./config');
 var routes = require('./routes');
 var http = require('http');
 var path = require('path');
-//load customers route
-var orders = require('./routes/orders');
+
 var app = express();
 var connection  = require('express-myconnection');
 var mysql = require('mysql');
@@ -46,9 +45,17 @@ app.use(
 
 var routes = require('./routes/index');
 var routes_orders = require('./routes/orders');
+var routes_customer = require('./routes/customer');
+var routes_gender = require('./routes/gender');
+var routes_process = require('./routes/process');
+var routes_cg = require('./routes/cg');
 
 app.use('/', routes);
 app.use('/api/v1/orders', routes_orders);
+app.use('/api/v1/customer', routes_customer);
+app.use('/api/v1/gender', routes_gender);
+app.use('/api/v1/stages', routes_process);
+app.use('/api/v1/cg', routes_cg);
 //routes(app);
 
 app.use(function(req, res) {

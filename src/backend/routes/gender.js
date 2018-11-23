@@ -1,12 +1,12 @@
 var express = require('express');
 var router = express.Router();
 
-var customerController = require('../controllers/CutomerController');
+var genderController = require('../controllers/GenderController');
 
     // todoList Routes
     router
-        .get('/',customerController.get_customer)
-        .get('/id/:orderID',customerController.get_customer)
+        .get('/',genderController.get_values)
+        .get('/id/:id',genderController.get_values)
 
 /*
 

@@ -1,6 +1,6 @@
 var moment = require('moment');
 
-exports.get_customer = function(req, res) {
+exports.get_values = function(req, res) {
 
     req.getConnection(function(err,connection){
         // errorhandling
@@ -9,30 +9,30 @@ exports.get_customer = function(req, res) {
                 where : ""
             };
 
-            if(req.params && req.params.customerID != null){
-                req.query.customerID=req.params.customerID;
+            if(req.params && req.params.id != null){
+                req.query.id=req.params.id;
             }
 
-            const existingParams = ["customerID"].filter(field => req.query[field]);
+            const existingParams = ["id"].filter(field => req.query[field]);
 
             if (existingParams.length) {
                 queryoptions.where = " WHERE ";
                 queryoptions.where += existingParams.map(field => {
                     switch(field){
-                        case "customerID":
-                            field = 'customer.id = ?';
+                        case "id":
+                            field = 'stages.id = ?';
                             break;
                     }
                     return field;
                 }).join(" AND ")
             }
 
-            let customer=['customers.id', 'customers.name'];
+            let selectlist=['stages.id', 'stages.name', 'stages.type', 'stages.department'];
 
-            queryoptions.select = [customer];
+            queryoptions.select = [selectlist];
 
             const qrystring = 'SELECT ' + queryoptions.select.join(',') + ' ' +
-                'FROM customers ' +
+                'FROM stages ' +
                 queryoptions.where +
                 '';
             connection.query(qrystring, existingParams.map(field => req.query[field]), function (error, results, fields) {
@@ -42,10 +42,14 @@ exports.get_customer = function(req, res) {
                     //If there is error, we send the error in the error section with 500 status
                 } else {
                     for(let i=0;i<results.length;i++){
-                        let row = results[i]
+                        let row = results[i];
+
                         results[i] = {
                             id: row.id,
-                            name: row.name
+                            name: row.name,
+                            type: row.type,
+                            department: row.department,
+
                         }
                     }
                     res.send(JSON.stringify({"status": 200, "error": null, "response": results}));

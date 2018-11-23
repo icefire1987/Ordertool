@@ -1,12 +1,12 @@
 var express = require('express');
 var router = express.Router();
 
-var customerController = require('../controllers/CutomerController');
+var commodityGroupController = require('../controllers/CommodityGroupController');
 
     // todoList Routes
     router
-        .get('/',customerController.get_customer)
-        .get('/id/:orderID',customerController.get_customer)
+        .get('/',commodityGroupController.get_values)
+        .get('/id/:id',commodityGroupController.get_values)
 
 /*
 

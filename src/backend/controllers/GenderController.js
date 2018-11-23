@@ -1,6 +1,6 @@
 var moment = require('moment');
 
-exports.get_customer = function(req, res) {
+exports.get_values = function(req, res) {
 
     req.getConnection(function(err,connection){
         // errorhandling
@@ -9,30 +9,30 @@ exports.get_customer = function(req, res) {
                 where : ""
             };
 
-            if(req.params && req.params.customerID != null){
-                req.query.customerID=req.params.customerID;
+            if(req.params && req.params.id != null){
+                req.query.id=req.params.id;
             }
 
-            const existingParams = ["customerID"].filter(field => req.query[field]);
+            const existingParams = ["id"].filter(field => req.query[field]);
 
             if (existingParams.length) {
                 queryoptions.where = " WHERE ";
                 queryoptions.where += existingParams.map(field => {
                     switch(field){
-                        case "customerID":
-                            field = 'customer.id = ?';
+                        case "id":
+                            field = 'options_gender.id = ?';
                             break;
                     }
                     return field;
                 }).join(" AND ")
             }
 
-            let customer=['customers.id', 'customers.name'];
+            let selectlist=['options_gender.id', 'options_gender.name', 'options_gender.icon', 'options_gender.sort'];
 
-            queryoptions.select = [customer];
+            queryoptions.select = [selectlist];
 
             const qrystring = 'SELECT ' + queryoptions.select.join(',') + ' ' +
-                'FROM customers ' +
+                'FROM options_gender ' +
                 queryoptions.where +
                 '';
             connection.query(qrystring, existingParams.map(field => req.query[field]), function (error, results, fields) {
@@ -45,7 +45,8 @@ exports.get_customer = function(req, res) {
                         let row = results[i]
                         results[i] = {
                             id: row.id,
-                            name: row.name
+                            name: row.name,
+                            icon: row.icon
                         }
                     }
                     res.send(JSON.stringify({"status": 200, "error": null, "response": results}));

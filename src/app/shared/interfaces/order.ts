@@ -7,6 +7,7 @@ export class Order {
     date_return_data: any;
     date_return_article: any;
     comment: string;
+    cg_set: any;
 }
 export class Address {
     id: number;

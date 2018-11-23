@@ -10,7 +10,8 @@
                         <input matInput formControlName="number" placeholder="Auftragsnummer">
                       </mat-form-field>
                       <mat-form-field>
-                        <mat-select placeholder="Kunde" formControlName="customer"  (change)="getRetouraddress($event)" [compareWith]="compareFn">
+                        <mat-select placeholder="Kunde" formControlName="customer"  (change)="getRetouraddress($event)" [compareWith]="compareFn_id">
+                          <mat-option [value]="{}">Kunde wählen</mat-option>
                           <mat-option *ngFor="let customer of kunden" [value]="customer">
                             {{ customer.name }}
                           </mat-option>
@@ -74,10 +75,10 @@
                                                 [c]="cg_set.controls[i].controls.cg"></cgdropdown>
                                 </div>
                                 <div class="col field_inline">
-                                    <genderdropdown [model]="gender_defaults" [myPlaceholder]="'Geschlecht wählen'" [selectedValue]="0" [c]="cg_elem.controls.gender"></genderdropdown>
+                                    <genderdropdown [model]="gender_defaults" [myPlaceholder]="'Geschlecht wählen'" [selectedValue]="cg_elem.value.gender" [c]="cg_elem.controls.gender"></genderdropdown>
                                 </div>
                                 <div class="col field_inline">
-                                    <processdropdown [model]="process_defaults" [myPlaceholder]="'Prozess wählen'" [c]="cg_elem.controls.process"></processdropdown>
+                                    <processdropdown [model]="process_defaults" [myPlaceholder]="'Prozess wählen'" [selectedValue]="cg_elem.value.process" [c]="cg_elem.controls.process"></processdropdown>
                                 </div>
                                 <div class="col field_inline">
                                 <mat-form-field hintLabel="">
@@ -162,15 +163,17 @@
         </mat-tab>
 
       </mat-tab-group>
-    <div>
+            <button mat-raised-button color="primary" type="button" (click)="saveOrder()" [disabled]="orderInputForm.invalid">Auftrag Speichern</button>
+<mat-divider></mat-divider>
+            <app-comment *ngIf="this.orderInputForm.value.id" [order_id]="this.orderInputForm.value.id"></app-comment>
 
-        <app-comment *ngIf="this.orderInputForm.value.id" [order_id]="this.orderInputForm.value.id"></app-comment>
 
-        <button mat-raised-button color="primary" type="button" (click)="saveOrder()" [disabled]="orderInputForm.invalid">Auftrag Speichern</button>
-    </div>
 
     </form>
 
 </div>
 
-<p class="" style="display:none">Form value: {{ orderInputForm.value | json }}</p>
+<p class="" style="display">
+
+    Form value: {{ orderInputForm.value | json }}
+</p>

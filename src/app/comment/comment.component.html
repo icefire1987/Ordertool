@@ -1,11 +1,20 @@
-<button mat-fab (click)="toggleViewControl('commentInput')">+</button>
+<h3 mat-subheader>Kommentare</h3>
+<button mat-raised-button color="accent" (click)="toggleViewControl('commentInput')">+</button>
+
+<mat-list *ngIf="this.comments_visible.length>0">
+    <mat-list-item *ngFor="let comment of this.comments_visible" (click)="this.showEdit(this)">
+        <button mat-icon-button color="warn" *ngIf="currentUser.id==comment.author.id" (click)="this.editComment(comment)">
+            <mat-icon mat-list-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" *ngIf="currentUser.id==comment.author.id" (click)="this.deleteComment(comment)">
+            <mat-icon mat-list-icon>delete</mat-icon>
+        </button>
+        <h4 mat-line>{{comment.author.name}} - <i>{{comment.date_create | date}}</i></h4>
+        <p mat-line> {{comment.message}} </p>
+    </mat-list-item>
+</mat-list>
 
 
-<li *ngFor="let comment of this.comments_visible" (click)="this.showEdit(this)">
-  {{comment.author.name}} ({{comment.date_create}}): {{comment.message}} | {{comment.type_comment}}
-  <button mat-mini-fab color="warn" *ngIf="currentUser.id==comment.author.id" (click)="this.editComment(comment)"><i class="material-icons">edit</i></button>
-  <button mat-mini-fab color="warn" *ngIf="currentUser.id==comment.author.id" (click)="this.deleteComment(comment)">-</button>
-</li>
 
 <div *ngIf="this.viewControl.commentInput">
   <form [formGroup]="commentForm" class="commentform" (ngSubmit)="createComment()">
